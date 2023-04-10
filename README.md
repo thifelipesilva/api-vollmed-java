@@ -3,7 +3,7 @@
 
 API rest para gerenciar consultas de uma clinica medica. A aplicação possui funcionalidades que permitem o cadastro de médicos e de pacientes, e também o agendamento e cancelamento de consultas.
 
-## As seguintes tecnologias foram utilizadas no desenvolvimento da API Rest do projeto:
+## tecnologias utilizadas:
 * Java 17
 * Spring Boot 3
 * Maven
@@ -11,10 +11,14 @@ API rest para gerenciar consultas de uma clinica medica. A aplicação possui fu
 * Hibernate
 * Flyway
 * Lombok
+*
 
 
 
 <h3>Funcionalidades</h3>
+
+
+
     - `Cadastro de médicos e pacientes: `       
         Medico: Nome, E-mail, Telefone, CRM, Especialidade (Ortopedia, Cardiologia, Ginecologia ou Dermatologia).
         Pacientes:  Nome, E-mail, CPF, Telefone.

@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import med.voll.api.doctor.DataDoctorCreate;
-import med.voll.api.doctor.Doctor;
-import med.voll.api.doctor.DoctorRepository;
-import med.voll.api.doctor.DataDoctorList;
-import med.voll.api.doctor.DataDoctorRes;
-import med.voll.api.doctor.DataDoctorUpdate;
+import med.voll.api.domain.doctor.DataDoctorCreate;
+import med.voll.api.domain.doctor.Doctor;
+import med.voll.api.domain.doctor.DoctorRepository;
+import med.voll.api.domain.doctor.DataDoctorList;
+import med.voll.api.domain.doctor.DataDoctorRes;
+import med.voll.api.domain.doctor.DataDoctorUpdate;
 
 @RestController
 @RequestMapping("doctors")
@@ -48,7 +48,7 @@ public class DoctorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity listADoctor(@PathVariable Long id) {
+    public ResponseEntity<DataDoctorRes> listADoctor(@PathVariable Long id) {
         var doctor = repository.getReferenceById(id);
         return ResponseEntity.ok(new DataDoctorRes(doctor));
     }

@@ -1,7 +1,7 @@
-package med.voll.api.patient;
+package med.voll.api.domain.patient;
 
 import lombok.NonNull;
-import med.voll.api.adress.DataAdress;
+import med.voll.api.domain.adress.DataAdress;
 
 public record DataPatientUpdate(
     @NonNull

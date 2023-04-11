@@ -1,6 +1,6 @@
-package med.voll.api.doctor;
+package med.voll.api.domain.doctor;
 
-import med.voll.api.adress.Adress;
+import med.voll.api.domain.adress.Adress;
 
 public record DataDoctorRes(
     Long id, 

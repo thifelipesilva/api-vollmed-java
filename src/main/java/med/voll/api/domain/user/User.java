@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
-    @Override
+    @Override//autorizacao de perfil
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }

@@ -1,5 +1,7 @@
 package med.voll.api.infra.exception;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,12 +14,12 @@ import jakarta.persistence.EntityNotFoundException;
 public class HandlerError {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handleError404() {
+    public ResponseEntity<String> handleError404() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity handleError400(MethodArgumentNotValidException exception) {
+    public ResponseEntity<List<InnerHandlerError>> handleError400(MethodArgumentNotValidException exception) {
         var error = exception.getFieldErrors();
         
         return ResponseEntity.badRequest().body(error.stream().map(InnerHandlerError::new).toList());

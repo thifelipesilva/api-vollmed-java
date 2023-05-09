@@ -11,7 +11,6 @@ API rest para gerenciar consultas de uma clinica medica. A aplicação possui fu
 * Hibernate
 * Flyway
 * Lombok
-*
 
 
 

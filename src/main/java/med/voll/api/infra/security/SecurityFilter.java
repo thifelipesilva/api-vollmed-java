@@ -24,7 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private UserRepository repository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var tokenJWT = recoverToken(request);
 
         if (tokenJWT != null) {

@@ -41,8 +41,10 @@ public class DoctorController {
         return ResponseEntity.created(uri).body(new DataDoctorRes(doctor));
     }
     
+    
+
     @GetMapping
-    public ResponseEntity<Page<DataDoctorList>>getListDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
+    public ResponseEntity<Page<DataDoctorList>> getListDoctors(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
         var page = repository.findAllByActiveTrue(pageable).map(DataDoctorList::new);
         return ResponseEntity.ok(page);
     }

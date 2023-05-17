@@ -19,6 +19,15 @@ public class ScheduleAppointment {
     @Autowired
     private PatientRepository patientRepository;
 
+    public void cancel(DataCancelAppointment data) {
+        if (repository.existsById(data.idAppointment())) {
+            throw new ValidationException("Appointement no exists");
+        }
+
+        var appointment = repository.getReferenceById(data.idAppointment());
+        appointment.cancelReason(data.reason());
+    }
+
     public void schedule(DataScheduleAppointment data) {
         if (!patientRepository.existsById(data.idPatient())) {
             throw new ValidationException("Id don't exist in db");
@@ -30,7 +39,7 @@ public class ScheduleAppointment {
         
         var patient = patientRepository.getReferenceById(data.idPatient());
         var doctor = doctorRepository.getReferenceById(data.idDoctor());
-        var appointment = new Appointment(null, doctor, patient, data.data());
+        var appointment = new Appointment(null, doctor, patient, data.data(), null);
         repository.save(appointment);
     }
 

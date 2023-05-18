@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
+import med.voll.api.domain.ValidationException;
 
 @RestControllerAdvice
 public class HandlerError {
@@ -24,6 +25,12 @@ public class HandlerError {
         
         return ResponseEntity.badRequest().body(error.stream().map(InnerHandlerError::new).toList());
     }
+
+    @ExceptionHandler()
+    public ResponseEntity<String> handleValidationException(ValidationException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
 
     private record InnerHandlerError(String field, String msg) {
 

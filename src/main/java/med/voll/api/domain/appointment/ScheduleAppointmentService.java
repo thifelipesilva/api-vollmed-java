@@ -1,15 +1,18 @@
 package med.voll.api.domain.appointment;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.domain.ValidationException;
+import med.voll.api.domain.appointment.validationAppointment.ValidatorScheduleAppointemnet;
 import med.voll.api.domain.doctor.Doctor;
 import med.voll.api.domain.doctor.DoctorRepository;
 import med.voll.api.domain.patient.PatientRepository;
 
 @Service
-public class ScheduleAppointment {
+public class ScheduleAppointmentService {
     @Autowired
     private AppointmentRepository repository;
 
@@ -18,6 +21,9 @@ public class ScheduleAppointment {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private List<ValidatorScheduleAppointemnet> validators;
 
     public void cancel(DataCancelAppointment data) {
         if (repository.existsById(data.idAppointment())) {
@@ -28,7 +34,7 @@ public class ScheduleAppointment {
         appointment.cancelReason(data.reason());
     }
 
-    public void schedule(DataScheduleAppointment data) {
+    public DataDetailsAppointment schedule(DataScheduleAppointment data) {
         if (!patientRepository.existsById(data.idPatient())) {
             throw new ValidationException("Id don't exist in db");
         }
@@ -36,13 +42,23 @@ public class ScheduleAppointment {
         if (data.idDoctor() !=null && !doctorRepository.existsById(data.idDoctor())) {
             throw new ValidationException("Id don't exist in db");
         }
+
+        validators.forEach(v -> v.validation(data));
         
         var patient = patientRepository.getReferenceById(data.idPatient());
         var doctor = doctorRepository.getReferenceById(data.idDoctor());
+
+        if (doctor == null) {
+            throw new ValidationException("doens't exists doctor in this date");
+        }
+
         var appointment = new Appointment(null, doctor, patient, data.data(), null);
         repository.save(appointment);
+
+        return new DataDetailsAppointment(appointment);
     }
 
+    //A escolha do médico é opcional, sendo que nesse caso o sistema deve escolher aleatoriamente algum médico disponível na data/hora preenchida.
     public Doctor chosseDoctor(DataScheduleAppointment data) {
         if (data.idDoctor() != null) {
             return doctorRepository.getReferenceById(data.idDoctor());

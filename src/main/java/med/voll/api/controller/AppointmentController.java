@@ -11,28 +11,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.appointment.DataCancelAppointment;
-import med.voll.api.domain.appointment.DataDetailsAppointment;
 import med.voll.api.domain.appointment.DataScheduleAppointment;
-import med.voll.api.domain.appointment.ScheduleAppointment;
+import med.voll.api.domain.appointment.ScheduleAppointmentService;
 
 @RestController
 @RequestMapping("/appointment")
 public class AppointmentController {
+    
     @Autowired
-    private ScheduleAppointment scheduleAppointment;
+    private ScheduleAppointmentService scheduleAppointment;
 
     @PostMapping
     @Transactional
     public ResponseEntity schedule(@RequestBody @Valid DataScheduleAppointment data) {
-        scheduleAppointment.schedule(data);
-        return ResponseEntity.ok(new DataDetailsAppointment(null, null, null, null));
+        var DTOResponse = scheduleAppointment.schedule(data);
+        return ResponseEntity.ok(DTOResponse);
     }
 
 
-@DeleteMapping
-@Transactional
-public ResponseEntity cancel(@RequestBody @Valid DataCancelAppointment data) {
-    scheduleAppointment.cancel(data);
-    return ResponseEntity.noContent().build();
-}
+    @DeleteMapping
+    @Transactional
+    public ResponseEntity cancel(@RequestBody @Valid DataCancelAppointment data) {
+        scheduleAppointment.cancel(data);
+        return ResponseEntity.noContent().build();
+    }
 }
